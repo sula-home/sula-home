@@ -1,0 +1,1253 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SULA HOME - Tép cảnh Hà Đông</title>
+
+<!-- TOÀN BỘ CSS GỒM Ở ĐÂY -->
+<style>
+    :root{
+    --orange-1:#ff7b00;
+    --orange-2:#e52e71;
+    --accent: linear-gradient(90deg,var(--orange-1),#ff5e00);
+    --text:#222;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter, "Segoe UI", Roboto, sans-serif;background:#faf7f2;color:var(--text);line-height:1.45;}
+
+/* Hot deal trên cùng */
+.top-banner{
+  background: linear-gradient(90deg,#ff8a00,#c94200);
+  color:#fff;
+  text-align:center;
+  padding:8px 10px;
+  font-weight:600;
+  font-size:15px;
+}
+/* Container */
+.container{max-width:1200px;margin:18px auto;padding:0 16px;}
+
+/* Header: search bar + social + checkout */
+.header-row{display:flex;align-items:center;gap:12px;justify-content:space-between;margin:14px 0;}
+.logo {display:flex;align-items:center;gap:12px}
+.logo img{height:64px;border-radius:12px;object-fit:cover}
+
+/* Search bar dài */
+.search-wrap{flex:1;display:flex;align-items:center;gap:8px}
+.search{flex:1;display:flex;background:var(--accent);border-radius:40px;padding:6px 8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.search input{flex:1;border:none;padding:14px 18px;border-radius:30px;font-size:16px}
+.search button{border:none;background:transparent;color:#fff;padding:10px 16px;font-weight:700;cursor:pointer}
+.search button:hover{opacity:.9;transform:translateY(-1px)}
+
+.header-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{background:#fff;padding:8px;border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.08);cursor:pointer}
+.icon-btn img{width:36px;height:36px;border-radius:8px}
+
+/* Main nav (categories shortcuts) */
+.main-nav{display:flex;gap:18px;justify-content:center;background:linear-gradient(90deg,#ff8a00,#dd3b00);padding:10px;border-radius:10px;color:#fff;font-weight:700;margin-bottom:18px;flex-wrap:wrap}
+.main-nav a{color:#fff;text-decoration:none;padding:6px 12px;border-radius:8px}
+.main-nav a:hover{background:rgba(255,255,255,0.06)}
+
+/* Layout: list sections */
+.section-title{font-size:20px;color:#8b1f1f;margin:18px 0 12px;display:flex;align-items:center;gap:10px}
+.products-list{display:flex;flex-direction:column;gap:10px}
+
+/* Card style (list item) */
+.product-item{
+  display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.96);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.04);
+  transition:transform .12s, box-shadow .12s;
+}
+.product-item:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+.product-thumb{width:120px;flex:0 0 120px;display:flex;align-items:center;justify-content:center}
+.product-thumb img{max-width:100%;border-radius:8px;object-fit:cover}
+.product-info{flex:1;display:flex;flex-direction:column;gap:6px}
+.product-info .name{font-weight:700;font-size:16px;color:#222}
+.product-meta{font-size:13px;color:#666}
+.product-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.price{font-weight:800;color:#e03b2d}
+.qty{width:70px;padding:8px;border-radius:8px;border:1px solid #eee;text-align:center}
+
+/* Cart icon floating */
+.cart-icon{
+  position:fixed;right:18px;bottom:24px;background:linear-gradient(90deg,#ff7b00,#e52e71);color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:2000
+}
+
+/* Cart popup */
+.cart-popup{position:fixed;right:18px;bottom:96px;width:340px;background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,0.18);padding:14px;z-index:2000;display:none}
+.cart-popup.active{display:block}
+.cart-popup h3{margin-bottom:8px;color:#e52e71}
+.cart-items{max-height:240px;overflow:auto;margin-bottom:10px}
+.cart-item{display:flex;justify-content:space-between;gap:8px;padding:8px 6px;border-bottom:1px solid #f0f0f0}
+.cart-total{text-align:right;font-weight:800;margin-bottom:8px}
+
+/* Notice toast */
+.cart-notice{position:fixed;left:50%;transform:translateX(-50%);bottom:-80px;background:#ff3b30;color:#fff;padding:10px 18px;border-radius:30px;font-weight:700;z-index:3000;transition:all .45s}
+.cart-notice.show{bottom:32px}
+
+/* Popup overlay + form */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;z-index:2500}
+.popup{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg,#ff7f00,#ff9a4d);padding:18px;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,0.3);width:360px;max-width:94%;z-index:2600;display:none;color:#fff}
+.popup .close-btn{position:absolute;right:12px;top:8px;background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer}
+.form-group{margin-bottom:8px}
+.form-group input,.form-group textarea{width:100%;padding:8px;border-radius:8px;border:none;outline:none}
+.popup .submit-btn{width:100%;padding:10px;border-radius:8px;border:none;background:#fff;color:#ff7f00;font-weight:800;cursor:pointer}
+
+/* Footer */
+footer{margin-top:26px;padding:18px 10px;text-align:center;background:#111;color:#fff;border-radius:8px;}
+
+/* Responsive */
+@media(max-width:900px){
+  .product-item{flex-direction:row}
+  .product-thumb{width:92px;flex:0 0 92px}
+}
+@media(max-width:700px){
+  .header-row{flex-direction:column;align-items:stretch;gap:12px}
+  .search-wrap{order:2}
+  .logo{order:1}
+  .main-nav{font-size:14px;padding:8px}
+  .product-item{flex-direction:row;gap:10px}
+}
+/* Hiệu ứng phóng to ảnh sản phẩm khi rê chuột */
+.product-thumb img, 
+.product img, 
+table img, 
+.card img {
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+/* Khi hover thì phóng to ảnh và nổi lên trên */
+.product-thumb img:hover, 
+.product img:hover, 
+table img:hover, 
+.card img:hover {
+  transform: scale(1.8);
+  position: relative;
+  z-index: 10;
+}
+/* Banner 2 hàng 10 ảnh */
+.hero-banner.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 cột */
+  gap: 6px;
+  padding: 10px 0;
+  justify-items: center;
+}
+
+.hero-banner.grid img {
+  width: 100%;
+  height: 210px; /* 👈 chỉnh độ cao ảnh ở đây */
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.hero-banner.grid img:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+/* 🔥 Hiệu ứng chữ Hot Deal chạy + phát sáng */
+.top-banner {
+  background: linear-gradient(90deg, #ff8800, #ff6600);
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 12px 0;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+}
+
+.top-banner span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 12s linear infinite, glow 1.5s ease-in-out infinite alternate;
+}
+
+/* Khi hover: tạm dừng + đổi màu sáng hơn + phát sáng mạnh */
+.top-banner:hover span {
+  animation-play-state: paused;
+  color: #ffe9b5;
+  text-shadow: 0 0 15px #ff6600, 0 0 30px #ff9900;
+}
+
+/* Hiệu ứng chạy ngang */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Hiệu ứng phát sáng nhẹ */
+@keyframes glow {
+  from { text-shadow: 0 0 5px #ffcc80, 0 0 10px #ff6600; }
+  to { text-shadow: 0 0 20px #ff9933, 0 0 40px #ff6600; }
+}
+/* ====== HIỆU ỨNG TIÊU ĐỀ MỤC SẢN PHẨM ====== */
+.section-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ff6600;
+  text-align: center;
+  margin: 40px 0 20px;
+  text-shadow: 0 0 5px #ffa94d;
+  transition: all 0.3s ease;
+}
+
+.section-title:hover {
+  color: #fff;
+  text-shadow: 0 0 12px #ff6600, 0 0 25px #ffa94d;
+  transform: scale(1.05);
+}
+
+/* ====== BẢNG SẢN PHẨM ====== */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.product-table th {
+  background: #ff6600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ====== NÚT MUA HÀNG ====== */
+.buy-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.buy-box input[type="number"] {
+  width: 55px;
+  padding: 4px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.buy-btn {
+  background: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  animation: pulseOrange 2s infinite alternate;
+}
+
+/* hiệu ứng phát sáng nhịp */
+@keyframes pulseOrange {
+  0% {
+    box-shadow: 0 0 0px #ff6600;
+  }
+  100% {
+    box-shadow: 0 0 12px 3px #ffa94d;
+  }
+}
+
+.buy-btn:hover {
+  background: #ff7f2a;
+  transform: scale(1.05);
+}
+.top-banner {
+  color: rgb(32, 1, 28) !important;   /* đổi sang đen, bạn có thể đổi màu khác */
+}
+main, section, .product-table {
+  background-color: #d85a00e3;
+}
+/* ==== Khung cho từng mục sản phẩm ==== */
+section, table.product-table {
+  border: 2px solid #f4a261; /* viền màu cam Sula */
+  border-radius: 12px;
+  padding: 20px;
+  margin: 30px auto;
+  background-color: #fffaf4; /* nền sáng nhẹ bên trong */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  max-width: 1500px; /* giới hạn chiều rộng cho cân đối */
+}
+
+/* ==== Tiêu đề mục sản phẩm ==== */
+.section-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #d97706; /* cam đậm */
+  text-shadow: 0 0 10px rgba(255, 165, 0, 0.4);
+  margin-bottom: 20px;
+  transition: transform 0.3s, color 0.3s;
+}
+
+/* Hiệu ứng hover cho tiêu đề mục */
+.section-title:hover {
+  color: #ff8c00;
+  transform: scale(1.05);
+}
+/* ==== Thanh danh mục sản phẩm ==== */
+.main-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 25px auto;
+  max-width: 100%;
+  padding: 10px;
+}
+
+/* ==== Các ô danh mục ==== */
+.main-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 12px;
+  background-color: #f5e6d3; /* màu be nhạt giống logo */
+  border-radius: 12px;
+  font-weight: 600;
+  color: #7a4a00;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #e0c9a6;
+}
+
+/* Hiệu ứng hover */
+.main-nav a:hover {
+  background-color: #f1c27d;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive nhỏ gọn */
+@media (max-width: 600px) {
+  .main-nav a {
+    font-size: 21px;
+    padding: 10px;
+  }
+}
+.product-note {
+  font-size: 14px;
+  color: #5a4b32; /* nâu be nhẹ giống logo */
+  margin: 6px 0;
+  font-style: italic;
+  background-color: #fdf8f3;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+/* ===== POPUP CHI TIẾT SẢN PHẨM ===== */
+.product-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.product-detail {
+  background: #fffaf3;
+  max-width: 700px;
+  width: 90%;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 80vh;
+  animation: fadeInUp 0.3s ease;
+}
+
+.product-detail h2 {
+  color: #d2691e;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.product-detail img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.product-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 22px;
+  color: #d2691e;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.info-btn {
+  background: transparent;
+  color: #d2691e;
+  border: 1px solid #d2691e;
+  padding: 4px 10px;
+  margin-top: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.info-btn:hover {
+  background: #d2691e;
+  color: white;
+}
+.product-note {
+  font-size: 13px;
+  color: #7b705f;
+  font-style: italic;
+  margin-top: 5px;
+}
+
+.product-detail {
+  background: #f9f6f1;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+</style>
+</head>
+<body>
+<!-- HOT DEAL -->
+<div class="top-banner">
+  <span>🔥 Deal Hot: Mua 10 tép tặng 1 tép • Giảm 10% cho hoá đơn trên 500.000₫ • Tặng 10 tép Sula Chân Trắng khi đặt bể setup tại shop 🔥</span>
+</div>
+<div class="top-banner" >
+  <span>🔥 Sỉ SLL các dòng tép sulawesi 25 Tỉnh Thành Miền Bắc Bảo Hành Tận Tay Chất Lượng Và Số Lượng 🔥🔥🔥🔥 </span>
+</div>
+<!-- Banner dạng 2 hàng, mỗi hàng 5 ảnh -->
+<div class="hero-banner grid">
+  <img src="ảnh/Banner.jpg" alt="Banner 1">
+  <img src="ảnh/Banner2.jpg" alt="Banner 2">
+  <img src="ảnh/muối 7.5 100gr 50gr.jpg" alt="Banner 3">
+  <img src="ảnh/onyx sand.jpg" alt="Banner 4">
+  <img src="ảnh/khoáng nutrafin100ml.jpg" alt="Banner 5">
+  <img src="ảnh/bể 1.jpg" alt="Banner 6">
+  <img src="ảnh/bể 4.jpg" alt="Banner 7">
+  <img src="ảnh/bể 3.jpg" alt="Banner 8">
+  <img src="ảnh/bể 5.jpg" alt="Banner 9">
+  <img src="ảnh/bể 6.jpg" alt="Banner 10">
+</div>
+
+<div class="container">
+  <!-- Header: logo + search + social + checkout -->
+  <div class="header-row">
+    <div class="logo">
+      <img src="ảnh/Logo.jpg" alt="Sula Home Logo" onerror="this.style.opacity=.3">
+      <div style="font-weight:800;color:var(--orange-1)">SULA HOME</div>
+    </div>
+
+    <div class="search-wrap" style="min-width:0;">
+      <div class="search" role="search">
+        <input id="searchInput" type="search" placeholder="Tìm sản phẩm, ví dụ: Sula Chân Trắng, muối 7.5, box đáy..." />
+        <button id="searchBtn">Tìm</button>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- social icons -->
+      <a class="icon-btn" href="https://zalo.me/0375823367" target="_blank" title="Zalo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo"></a>
+      <a class="icon-btn" href="https://www.facebook.com/profile.php?id=61580436086949" target="_blank" title="Facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="FB"></a>
+      <a class="icon-btn" href="https://www.youtube.com/@Sula-Home" target="_blank" title="YouTube"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YT"></a>
+
+      <!-- checkout quick button -->
+      <button id="checkout-btn" style="background:var(--orange-1);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:800">Thanh toán</button>
+    </div>
+  </div>
+
+  <!-- Thanh danh mục sản phẩm -->
+<nav class="main-nav">
+  <a href="#tep-sulawesi">🦐 TÉP SULAWESI</a>
+  <a href="#tep-mau">🎨 TÉP MÀU</a>
+  <a href="#oc-sula-rabbit">🐌 ỐC Sula Rabbit</a>
+  <a href="#phu-kien">⚙️ PHỤ KIỆN</a>
+  <a href="#nen-tep">🌱 NỀN TÉP</a>
+  <a href="#be-setup">🧰 BỂ SETUP</a>
+</nav>
+
+
+  <!-- SECTIONS: will be rendered by JS -->
+  <main id="catalog">
+    <!-- Sections placeholders -->
+    <section id="tep-sulawesi">
+      <h2 class="section-title">🦐 TÉP SULAWESI</h2>
+      <div class="products-list" id="list-tep-sulawesi"></div>
+    </section>
+
+    <section id="tep-mau">
+      <h2 class="section-title">🦐 TÉP MÀU</h2>
+      <div class="products-list" id="list-tep-mau"></div>
+    </section>
+     
+    <section id="oc-sula-rabbit">
+  <h2 class="section-title">🐌 ỐC Sula Rabbit</h2>
+  <div class="products-list" id="list-oc-sula-rabbit"></div>
+</section>
+
+    <section id="phu-kien">
+      <h2 class="section-title">⚙️ PHỤ KIỆN TÉP CẢNH</h2>
+      <div class="products-list" id="list-phu-kien"></div>
+    </section>
+
+    <section id="nen-tep">
+      <h2 class="section-title">🪨 NỀN TÉP CẢNH CHUYÊN DỤNG</h2>
+      <div class="products-list" id="list-nen-tep"></div>
+    </section>
+
+    <section id="be-setup">
+      <h2 class="section-title">🪞 BỂ KÍNH SETUP SẴN ỔN ĐỊNH CAO</h2>
+      <div class="products-list" id="list-be-setup"></div>
+    </section>
+  </main>
+
+  <!-- Floating cart icon -->
+  <div class="cart-icon" id="cartToggle" title="Xem giỏ hàng">🛒</div>
+
+  <!-- Cart popup -->
+  <div class="cart-popup" id="cart-popup">
+    <span style="float:right;cursor:pointer;color:#999" id="cartClose">✖</span>
+    <h3>Giỏ hàng</h3>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-total" id="cart-total">Tổng: 0₫</div>
+    <button id="goCheckout" style="background:linear-gradient(90deg,#ff8a00,#e52e71);color:#fff;border:none;padding:10px;border-radius:8px;cursor:pointer">Thanh toán</button>
+  </div>
+
+  <!-- Toast notice -->
+  <div class="cart-notice" id="cart-notice">Đã thêm vào giỏ hàng</div>
+
+  <!-- Overlay + checkout popup -->
+  <div class="overlay" id="overlay"></div>
+  <div class="popup" id="checkout-popup">
+    <button class="close-btn" id="popup-close">✖</button>
+    <h3 style="margin-bottom:8px">Thanh toán đơn hàng</h3>
+    <div style="background:rgba(255,255,255,0.12);padding:8px;border-radius:8px;color:#fff;margin-bottom:10px">
+      <div id="order-summary" style="max-height:140px;overflow:auto;"></div>
+      <div id="order-total" style="text-align:right;font-weight:800;margin-top:8px"></div>
+    </div>
+
+    <form id="checkout-form">
+      <div class="form-group">
+        <input name="name" placeholder="Họ tên" required />
+      </div>
+      <div class="form-group">
+        <input name="phone" placeholder="Số điện thoại" required />
+      </div>
+      <div class="form-group">
+        <input name="address" placeholder="Địa chỉ" required />
+      </div>
+      <div class="form-group">
+        <textarea name="note" placeholder="Ghi chú..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Gửi đơn hàng</button>
+    </form>
+  </div>
+</div>
+
+<!-- audio -->
+<audio id="add-sound" src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA="></audio>
+<!-- tiny silent wav (placeholder) - the browser will play a tiny click; you can replace with a real URL -->
+
+<!-- ===== JS: render products, cart logic, checkout ===== -->
+<script>
+/* ========== Dữ liệu 20 sản phẩm mẫu (chia theo mục) ========== */
+const PRODUCTS = {
+  "tep-sulawesi": [
+    {id:"s1",
+    name:"Sula Galaxy - size thương mại",
+    price:40000,meta:"Hạng Cao A",
+    img:"ảnh/sula galaxy.jpg",
+    note:"Dòng tép cao cấp, nhạy cảm với biến động pH — khuyên dùng nước ổn định.",
+  detail: `
+  <p><b>Tép Sula Galaxy</b> là dòng tép Sulawesi cao cấp có nguồn gốc từ hồ Towuti hoặc Matano, Indonesia.</p>
+  <p><b>Đặc điểm:</b> Thân đen, đốm sáng lấp lánh như bầu trời đầy sao. Kích thước 2–2.5cm.</p>
+  <p><b>Điều kiện nuôi:</b> Nhiệt độ 27–30°C, pH 7.8–8.5, TDS 150–200ppm.</p>
+  <p><b>Thức ăn:</b> Tảo tự nhiên, biofilm, thức ăn chuyên dụng (Dennerle, BorneoWild,…).</p>
+  <p><i>Lưu ý: Dòng tép nhạy cảm, cần nước ổn định và lọc vi sinh mạnh.</i></p>`},
+    
+  {
+    id: "s2",
+    name: "Sula Blue Ghost - size thương mại",
+    price: 60000,
+    meta: "Hạng A",
+    img: "ảnh/sula blue ghost.jpg",
+    note: "Dòng tép đột biến của chân trắng , thân hơi trong suốt ánh xanh lam blue, cần nước ổn định.",
+    detail: `
+      <p><b>Tép Sula Blue Ghost</b> có nguồn gốc từ hồ Towuti/Matano, Indonesia, dòng Sulawesi cao cấp.</p>
+      <p><b>Đặc điểm:</b> Thân trong suốt, ánh xanh lam blue, đôi khi có đốm trắng nhỏ. Kích thước 2–2.5cm.</p>
+      <p><b>Điều kiện nuôi:</b> Nhiệt độ 27–30°C, pH 7.5–8.0, TDS 150–200ppm. Nước RO + muối khoáng Sulawesi.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn Sulawesi chuyên dụng.</p>
+      <p><i>Lưu ý: Nhạy cảm với thay đổi môi trường, thay nước chậm và ít.</i></p>`
+  },
+    
+  {
+    id: "s3",
+    name: "Sula Blue Ghost - size hạng cao",
+    price: 100000,
+    meta: "Hạng Cao",
+    img: "ảnh/sula blue ghost 2.jpg",
+    note: "Dòng hạng cao của Blue Ghost, màu sắc rõ nét hơn, chăm sóc tương tự dòng thương mại.",
+    detail: `
+      <p><b>Tép Sula Blue Ghost hạng cao</b> — cá thể chọn lọc, màu sắc xanh lam đẹp, vỏ sứ xanh blue đậm.</p>
+      <p><b>Điều kiện nuôi:</b> Nhiệt độ 27–30°C, pH 7.8–8.5, TDS 150–200ppm, bể đã chạy ổn định.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn Sulawesi chuyên dụng.</p>
+      <p><i>Lưu ý: Thích hợp người nuôi Sulawesi nâng cao, không thay nước đột ngột.</i></p>`
+  },
+  
+  {
+    id: "s4",
+    name: "Sula Khăn Quàng Cổ",
+    price: 50000,
+    meta: "Hạng Cao A",
+    img: "ảnh/sula khăn quàng cổ.jpg",
+    note: "Dòng Sulawesi đặc trưng với họa tiết khăn quàng cổ trên thân.",
+    detail: `
+      <p><b>Tép Sula Khăn Quàng Cổ</b> — dòng Sulawesi đẹp, dễ nhận biết qua họa tiết trên thân.</p>
+      <p><b>Điều kiện nuôi:</b> 27–30°C, pH 7.8–8.5, TDS 150–200ppm.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo, thức ăn Sulawesi chuyên dụng.</p>`
+  },
+    
+  {
+    id: "s5",
+    name: "Sula Yellow Check",
+    price: 50000,
+    meta: "Hạng Cao A",
+    img: "ảnh/sula yellow check.jpg",
+    note: "Dòng Sulawesi chân vàng, thân đỏ nổi bật, độ khó nuôi cao yêu cầu môi trường thực sự ổn định về nhiệt độ và chất lượng nước.",
+    detail: `
+      <p><b>Tép Sula Yellow Check</b> — chân vàng sáng, đốm rõ, kích thước 2–2.5cm.</p>
+      <p><b>Điều kiện nuôi:</b> 27–30°C, pH 7.8–8.5, TDS 150–200ppm.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn chuyên dụng.</p>`
+  },
+    
+  {
+    id: "s6",
+    name: "Sula Tigri",
+    price: 50000,
+    meta: "Hạng Cao A",
+    img: "ảnh/sula tigri.jpg",
+    note: "Dòng Sulawesi với vằn sọc hổ độc đáo, kích thước 2–2.5cm.",
+    detail: `
+      <p><b>Tép Sula Tigri</b> — họa tiết sọc vằn như hổ trên thân, đặc trưng Sulawesi.</p>
+      <p><b>Điều kiện nuôi:</b> 27–30°C, pH 7.8–8.5, TDS 150–200ppm.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn chuyên dụng.</p>`
+  },
+   
+  {
+    id: "s7",
+    name: "Sula Chân Trắng Size SS",
+    price: 40000,
+    meta: "1 cặp (trống/mái)",
+    img: "ảnh/sula chân trắng sinh sản.jpg",
+    note: "Dòng Sula chân trắng đẹp, thích hợp nuôi sinh sản số lượng khởi tạo 2 30 cặp chất lượng tép gen tốt.",
+    detail: `
+      <p><b>Tép Sula Chân Trắng Size SS</b> — chân trắng nổi bật, thân đỏ nhạt, 1 cặp trống/mái.</p>
+      <p><b>Điều kiện nuôi:</b> 27–30°C, pH 7.8–8.5, TDS 150–200ppm, nước ổn định.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn chuyên dụng.</p>`
+  },
+     
+  {
+    id: "s8",
+    name: "Sula Chân Trắng thương mại",
+    price: 12000,
+    meta: "Thương mại",
+    img: "ảnh/sula chân trắng thương mại.jpg",
+    note: "Dòng Sula chân trắng phổ biến, nuôi đơn giản hơn dòng cao cấp.",
+    detail: `
+      <p><b>Tép Sula Chân Trắng thương mại</b> — màu sắc trung bình, dễ nuôi.</p>
+      <p><b>Điều kiện nuôi:</b> 27–30°C, pH 7.8–8.5, TDS 150–200ppm.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn chuyên dụng.</p>`
+  },
+    
+  {
+    id: "s9",
+    name: "Sula Chân Trắng mắt cam OE",
+    price: 140000,
+    meta: "Hạng Cao A",
+    img: "ảnh/mắt cam.jpg",
+    note: "Dòng đột biến cao cấp, mắt cam nổi bật, thích hợp người nuôi nâng cao.",
+    detail: `
+      <p><b>Tép Sula Chân Trắng mắt cam OE</b> — mắt cam rực rỡ, thân đỏ rượu vang, chân trắng rõ.</p>
+      <p><b>Điều kiện nuôi:</b> 27–30°C, pH 7.8–8.5, TDS 150–200ppm.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo tự nhiên, thức ăn chuyên dụng.</p>`
+  }
+],
+  "tep-mau": [
+    {
+    id: "m1",
+    name: "Dark Blood Size SS",
+    price: 40000,
+    meta: "Hàng Tuyển Chọn",
+    img: "ảnh/tép dark blood.webp",
+    note: "Dòng tép màu đỏ sẫm, thân trong, chọn lọc kỹ càng.",
+    detail: `
+      <p><b>Tép Dark Blood Size SS</b> — thân đỏ sẫm, trong suốt, size nhỏ SS (1–1.5cm).</p>
+      <p><b>Điều kiện nuôi:</b> 23–28°C, pH 6.5–7.5, TDS 100–200ppm. Thích hợp bể nền tối và nhiều rêu.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo, thức ăn chuyên dụng cho tép màu.</p>`
+  },
+    {
+    id: "m2",
+    name: "Blood Mary - size SS",
+    price: 30000,
+    meta: "Hạng A",
+    img: "ảnh/dark blood 2.jpg",
+    note: "Dòng tép màu đỏ tươi, size SS, dễ phân biệt và chăm sóc.",
+    detail: `
+      <p><b>Tép Blood Mary Size SS</b> — thân đỏ tươi, size nhỏ 1–1.5cm.</p>
+      <p><b>Điều kiện nuôi:</b> 23–28°C, pH 6.5–7.5, TDS 100–200ppm, bể nền tối ưu.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo, thức ăn chuyên dụng cho tép màu.</p>`
+  },
+    {
+    id: "m3",
+    name: "Caridina sp. Colour Mix",
+    price: 5000,
+    meta: "Đa dạng",
+    img: "ảnh/mix clor.jpg",
+    note: "Hỗn hợp tép Caridina nhiều màu, phù hợp nuôi bể cảnh đa dạng.",
+    detail: `
+      <p><b>Caridina sp. Colour Mix</b> — hỗn hợp tép nhiều màu, size đa dạng, sinh sản nhanh.</p>
+      <p><b>Điều kiện nuôi:</b> 23–28°C, pH 6.5–7.0, TDS 100–200ppm.</p>
+      <p><b>Thức ăn:</b> Biofilm, tảo, thức ăn chuyên dụng cho tép màu.</p>`
+  }
+],
+  "oc-sula-rabbit": [
+  {
+    id: "r1",
+    name: "Sula Rabbit Golden Yellow",
+    price: 55000,
+    meta: "Ốc cảnh Sulawesi",
+    img: "ảnh/ốc sula golden.jpg",
+    note: "Ốc Sula Rabbit màu vàng sáng, đẹp mắt, dễ nuôi, thân thiện bể Sulawesi.",
+    detail: `
+      <p><b>Ốc Sula Rabbit Golden Yellow</b> — màu vàng tươi rực rỡ, vỏ bóng, thích hợp bể Sulawesi.</p>
+      <p><b>Điều kiện nuôi:</b> 24–28°C, pH 7.5–8.5, TDS 150–200ppm, bể ổn định.</p>
+      <p><b>Thức ăn:</b> Rong, biofilm, thức ăn viên cho ốc và tép.</p>
+      <p><i>Lưu ý: Không nuôi chung với cá ăn ốc, thay nước nhẹ nhàng.</i></p>`
+  },
+  {
+    id: "r2",
+    name: "Sula Rabbit White Spot",
+    price: 55000,
+    meta: "Ốc cảnh Sulawesi",
+    img: "ảnh/ốc sula White spot 2.jpg",
+    note: "Ốc Sula Rabbit màu trắng đốm trên thân trong, đẹp mắt, dễ chăm sóc.",
+    detail: `
+      <p><b>Ốc Sula Rabbit White Spot</b> — thân trong suốt, đốm trắng nổi bật, thích hợp bể Sulawesi.</p>
+      <p><b>Điều kiện nuôi:</b> 24–28°C, pH 7.5–8.5, TDS 150–200ppm, bể ổn định.</p>
+      <p><b>Thức ăn:</b> Rong, biofilm, thức ăn viên cho ốc và tép.</p>
+      <p><i>Lưu ý: Không nuôi chung với cá ăn ốc, thay nước nhẹ nhàng.</i></p>`
+  }
+],
+  "phu-kien": [
+    {
+    id: "p1",
+    name: "Lọc Bio QS 200a",
+    price: 100000,
+    meta: "Lọc vi sinh",
+    img: "ảnh/QS200A.jpg",
+    note: "Lọc vi sinh mini cho bể tép nhỏ và vừa, đảm bảo nước sạch và ổn định.",
+    detail: `
+      <p><b>✔️Lọc Bio QS 200a</b> — lọc vi sinh mini, phù hợp bể tép 20–40L.</p>
+      <p><b>✔️Công dụng:</b> Giữ nước trong, tạo môi trường thuận lợi cho vi sinh và tép.</p>`
+  },
+    {
+    id: "p2",
+    name: "Box đáy Taiwan (full set)",
+    price: 170000,
+    meta: "Box + vỉ + ống Airlift + sủi",
+    img: "ảnh/box đáy.jpg",
+    note: "Bộ box đáy đầy đủ, giúp sục khí và lọc vi sinh hiệu quả.",
+    detail: `
+      <p><b>✔️Box đáy Taiwan</b> — gồm box, vỉ, ống Airlift, sủi khí.</p>
+      <p><b>✔️Công dụng:</b> Tăng vi sinh, ổn định môi trường, phù hợp bể Sulawesi.</p>`
+  },
+    {
+    id: "p3",
+    name: "Bút đo TDS",
+    price: 60000,
+    meta: "Kiểm tra chất rắn hòa tan",
+    img: "ảnh/gen-h-bút đo tds.jpg",
+    note: "Đo nhanh TDS của nước, kiểm soát chất lượng nước cho tép Sulawesi.",
+    detail: `
+      <p><b>✔️Bút đo TDS</b> — đo tổng chất rắn hòa tan trong nước.</p>
+      <p><b>✔️Công dụng:</b> Kiểm soát TDS, tránh sốc nước cho tép.</p>`
+  },
+    {
+    id: "p4",
+    name: "Sưởi SUNSUN 200W",
+    price: 300000,
+    meta: "Sưởi bể",
+    img: "ảnh/sưởi sunsun 200w.jpg",
+    note: "Sưởi ổn định nhiệt độ bể tép 30–60L, chống sốc nhiệt.",
+    detail: `
+      <p><b> ✔️Sưởi SUNSUN 200W</b> Phạm vi nhiệt độ: 18-34°C.,</p>
+      <p><b> ✔️Điện áp: 220-240v.,</p>
+      <p><b> ✔️Chất liệu: nhựa + kim loại.,</p>
+      <p><b> ✔️Chiều dài dây: 1,2m .,</p>
+      <p><b> 🐟200w cho bể 100L-150L.</p>`
+  },
+    {
+    id: "p5",
+    name: "Bút đo pH",
+    price: 90000,
+    meta: "Đã hiệu chỉnh",
+    img: "ảnh/but-do-ph-nuoc.jpg",
+    note: "Đo chính xác pH, giúp duy trì pH ổn định cho tép Sulawesi.",
+    detail: `
+      <p><b>✔️Bút đo pH</b> — kiểm tra nhanh pH nước, đã hiệu chuẩn sẵn.</p>
+      <p><b>✔️Công dụng:</b> Kiểm soát PH, tránh sốc thông số cho tép.</p>`
+  },
+    {
+    id: "p6",
+    name: "Nhiệt Kế Thuỷ Ngân",
+    price: 16000,
+    meta: "Chính Hãng",
+    img: "ảnh/nhiệt kế.jpg",
+    note: "Đo nhiệt độ nước chính xác, dễ quan sát.",
+    detail: `
+      <p><b>✔️ Nhiệt Kế Thuỷ Ngân</b> — đo nhiệt độ nước bể tép, chính xác ±1°C.</p>`
+  },
+    {
+    id: "p7",
+    name: "Muối Sula 7.5 – Muối khoáng Salty Shrimp Sulawesi Mineral 7.5",
+    price: 90000,
+    meta: "Túi chiết 50gr",
+    img: "ảnh/muối 7.5 100gr 50gr.jpg",
+    note: "Muối khoáng chuẩn Sulawesi, bổ sung PH KH cần thiết cho tép Sulawesi.",
+    detail: `
+      <p><b>Muối khoáng Salty Shrimp Sulawesi Mineral 7.5 được thiết kế đặc biệt giúp dễ hòa tan, 
+        giúp tái tạo môi trường lý tưởng ở các quần đảo sula ngoài thiên nhiên. Loại khoáng này giúp đệm pH ở mức 7.5 và phục vụ cho việc bổ sung lại các khoáng chất cần thiết khi sử dụng nước nước RO, 
+        nước mưa, nước khử khoáng….</p>
+      <p><b>✔️ Cách dùng muối Sula 7.5 </p>
+      <p><b>✔️ Dùng ~ 3.5 gram với 15 lít nước RO sẽ cho ra nước có chỉ số gH ~ 6, TDS ~ 270 (±40 ppm)</p>
+      <p><b>✔️ Salty Shrimp Sulawesi Mineral 7.5 giúp tăng độ cứng tổng (gH) và độ cứng cacbonat (kH) theo tỉ lệ: 1.0 / 0.42.</p>
+      <p><b>✔️Cách dùng: Hòa tan 100% muối với nước RO ngoài, muối 7.5 rất dễ tan, làm thành khoáng nước. Dùng trực tiếp vào hồ, điều chỉnh theo thông số TDS, GH, PH mong muốn.</p>
+      <p><b>✔️Nên dùng dụng cụ đo GH, TDS chuyên dụng để căn chỉnh thông số phù hợp.</p>
+      <p><b>✔️ Muối 7.5 phù hợp với người mới tiếp cận các dòng Tép Sulawesi cơ bản như sula chân trắng, white orchid,..</p>`
+  },
+    {
+    id: "p8",
+    name: "Khoáng Nước Nutrafin",
+    price: 58000,
+    meta: "Chai chiết 100ml",
+    img: "ảnh/khoáng nutrafin100ml.jpg",
+    note: " là loại khoáng các trại tép tin dùng vì dễ sử dụng Khoáng cho tép Nutrafin Cichlid cung cấp đầy đủ dinh dưỡng như Magie, Kali, Natrigiúp tép lên màu cải thiện sứ.Thích hợp cho mọi loại tép.",
+    detail: `
+      <p><b>✔️Khoáng Nước Nutrafin</b> — bổ sung Ca, Mg, vi lượng, ổn định GH/KH.</p>
+      <p><b>✔️Cách sử dụng:</p>
+      <p><b>✔️Pha mỗi lần 5  - 10 ml khoáng trực tiếp vào bể hoặc vào phần nước đang chuẩn bị thay. Để 2 - 3 phút rồi Đo lại bằng bút đo TDS hoặc bộ kit GH đến khi đạt chỉ số mong muốn.</p>`
+  },
+    {
+    id: "p9",
+    name: "Lọc Bio yu 229a",
+    price: 130000,
+    meta: "Lọc vi sinh",
+    img: "ảnh/bio yu 229A.jpg",
+    note: "Lọc vi sinh trung bình cho bể 30–50L.",
+    detail: `
+      <p><b>✔️Lọc Bio yu 229a</b> — tăng cường vi sinh, giữ nước sạch, giảm tảo hại.</p>`
+  },
+    {
+    id: "p10",
+    name: "Máy Sủi Yee 212",
+    price: 170000,
+    meta: "Lọc vi sinh",
+    img: "ảnh/sủi yzt 212.jpg",
+    note: "Sủi khí tạo oxy cho bể tép nhỏ và vừa.",
+    detail: `
+      <p><b>✔️Máy Sủi Yee 212</b> — tạo dòng oxy nhẹ, đảm bảo vi sinh phát triển.</p>`
+  },
+    {
+    id: "p11",
+    name: "Máy Sủi Yee 318",
+    price: 230000,
+    meta: "Lọc vi sinh",
+    img: "ảnh/sủi yzt 316.jpg",
+    note: "Sủi khí công suất cao cho bể 40–60L.",
+    detail: `
+      <p><b>✔️Máy Sủi Yee 318</b> — sủi khí mạnh, ổn định oxy trong bể tép.</p>`
+  }
+  ],
+  "nen-tep": [
+    {
+    id: "n1",
+    name: "Black Lava Stone (Nham thạch đen)(1kg)",
+    price: 20000,
+    meta: "Nhập Indo",
+    img: "ảnh/lava đen 1.jpg",
+    note: "với đặc tính xốp, có nhiều lỗ rỗng nhám và tương đối nhẹ không làm tăng PH.",
+    detail: `
+      ✔️<p><b>Black Lava Stone (Nham thạch đen) có nguồn gốc hình thành từ sự phun trào núi lửa với đặc tính xốp, 
+        có nhiều lỗ rỗng khí và tương đối nhẹ. Tận dụng những ưu điểm đó nên Black Lava Stone (Nham thạch đen) 
+        rất được ưa chuộng khi ứng dụng làm vật liệu lọc sinh học trong hồ cá cảnh hoặc làm 
+        giá thể trồng cây có hiệu quả cao mà chi phí rẻ.,</p>
+      ✔️<p><b>Nền Lava Rock</b> — Đá núi lửa tăng vi sinh, bám rêu tốt, thân thiện Sulawesi.,</p>
+      ✔️<p><b>Nền Lava Rock</b> — hạt đen, nhiều lỗ, tăng vi sinh và tạo bề mặt bám rêu.</p>`
+  },
+    {
+    id: "n2",
+    name: "Seachem onyx sand(1kg)",
+    price: 140000,
+    meta: "Hạt mịn",
+    img: "ảnh/onyx sand.jpg",
+    note: "hạt mịn, giữ sạch bể, dễ tạo thảm rêu, màu sáng.",
+    detail: `
+      <p><b>Onyx Sand</b> Nền Onyx Sand
+
+   <p><b>✔️ Sản xuất: SEACHEM - Mỹ
+   <p><b>✔️ Quy cách: Túi 1kg
+   <p><b>✔️ Onyx Sand là một loại cát màu xám đen tự nhiên, bổ sung hoàn hảo và nâng cao vẻ đẹp của bất kỳ bể cá nào. Nó hỗ trợ mức kH tối ưu cho hồ cá thuỷ sinh.</p>
+   <p><b>✔️ Onyx Sand là một loại cát nền giàu cacbonat, nó là một chất đệm để có thể làm tăng nhẹ độ pH lên 0.1-0.5 đơn vị pH (tùy thuộc vào đặc tính nguồn nước). Do đó nền thường được dùng cho hồ tép sula, hồ cá cần độ pH cao.</p>
+   <p><b>✔️ Cách setup:- Vì Onyx Sand là một sản phẩm tự nhiên, nó có thể bị bám bụi khi vận chuyển và cần phải rửa sạch trước khi sử dụng để loại bỏ bụi còn sót lại.</p>`
+  },
+    {
+    id: "n3",
+    name: "Sula Sand - Sulawesi Volcanic Rock(1kg)",
+    price: 140000,
+    meta: "Ổn định pH",
+    img: "ảnh/sula sand.jfif",
+    note: "Sula Sand (Sulawesi Volcanic Rock) là đá nham đen tự nhiên được khai thác trực tiếp từ hồ Sulawesi (Indonesia) bởi SL Aqua, vẫn giữ nguyên khoáng chất và dinh dưỡng, giúp ổn định pH và tạo môi trường lý tưởng cho tép Sulawesi.",
+    detail: `
+      <p><b>✔️Sula Sand</b> — đá tự nhiên, ổn định pH 7.8–8.5, duy trì TDS cho tép Sulawesi.</p>
+      <p><b>✔️đá núi lửa màu đen hạt nhỏ nhám , giúp hệ vi sinh phát triển tốt trong bể Sulawesi, giúp ổn định pH và TDS .</p>
+      <p><b>✔️Sula Sand không có tác dụng tăng hay giảm pH, chỉ giữ pH ổn định. Chỉ số pH trong hồ phụ thuộc vào nước đầu vào, muối Sulawesi, vật liệu lọc và đá décor.</p>
+      <p><b>✔️ Hướng dẫn sử dụng: 
+      •  Có thể thả trực tiếp vào bể.
+      •  Nếu muốn, rửa nhẹ 1 lần với nước sạch trước khi dùng để loại bỏ bụi.</p>`
+  },
+    {
+    id: "n4",
+    name: "Cát Đen Platinum (1kg)",
+    price: 25000,
+    meta: "Dành cho Sulawesi",
+    img: "ảnh/cát đen.jpg",
+    note: "Cát nền tối, cát trơ không tăng PH, thích hợp nuôi tép Sulawesi.",
+    detail: `
+      <p><b>✔️Cát Đen Platinum</b> — nền tối, giúp tép lên màu tốt với dòng Blue Ghost, ổn định PH trong bể Sulawesi.</p>  
+      <p><b>✔️Cát Đen Platinum</b> — nền tối, giúp rêu phát triển và tăng thẩm mỹ cho bể Sulawesi.</p>`
+  }
+  ],
+  "be-setup": [
+    {id:"b1",name:"Bể 433 setup full",price:1300000,meta:"Bể + box đáy + nền + đèn + Bio . tặng 10 sula chân trắng",img:"ảnh/bể 6.jpg"},
+    {id:"b2",name:"Bể 333 cubic setup full",price:800000,meta:"Bể + box đáy + nền + đèn . tặng 10 sula chân trắng",img:"ảnh/bể 5.jpg"},
+    {id:"b3",name:"Bể 533 setup full",price:1500000,meta:"Bể + lọc treo 803 + nền + đèn + Bio.  tặng 10 sula chân trắng",img:"ảnh/bể 3.jpg"},
+    {id:"b4",name:"Bể 433 setup cơ bản ",price:600000,meta:"bể + bio đã đánh rêu chạy cycle ổn định",img:"ảnh/bể 4.jpg"}
+  ]
+};
+
+/* ========== render danh sách sản phẩm từ PRODUCTS ========== */
+function createProductHTML(p){
+  return `
+    <div class="product-item" data-id="${p.id}">
+      <div class="product-thumb">
+        <img src="${p.img}" alt="${escapeHtml(p.name)}" 
+          onerror="this.style.opacity=.25;this.style.filter='grayscale(40%)'">
+      </div>
+      <div class="product-info">
+        <div class="name">${escapeHtml(p.name)}</div>
+        <div class="product-meta">${escapeHtml(p.meta)}</div>
+        <div class="product-meta">Giá: 
+          <span class="price">${p.price.toLocaleString()}₫</span>
+        </div>
+        ${p.note ? `<div class="product-note">${escapeHtml(p.note)}</div>` : ""}
+        ${p.detail ? `<div class="product-detail">${p.detail}</div>` : ""}
+      </div>
+      <div class="product-actions">
+        <input type="number" class="qty" min="1" value="1" title="Số lượng"/>
+        <button class="buy-btn" data-id="${p.id}">🛒 Mua hàng</button>
+      </div>
+    </div>
+  `;
+}
+
+
+/* ========== RENDER TẤT CẢ DANH MỤC ========== */
+function renderAll(){
+  const sections = {
+    'list-tep-sulawesi': 'tep-sulawesi',
+    'list-tep-mau': 'tep-mau',
+    'list-oc-sula-rabbit': 'oc-sula-rabbit',
+    'list-phu-kien': 'phu-kien',
+    'list-nen-tep': 'nen-tep',
+    'list-be-setup': 'be-setup'
+  };
+
+  for (const id in sections){
+    const key = sections[id];
+    const container = document.getElementById(id);
+    if (container && PRODUCTS[key]){
+      container.innerHTML = PRODUCTS[key].map(p => createProductHTML(p)).join('');
+    }
+  }
+
+  // Gắn sự kiện cho nút mua
+  document.querySelectorAll('.buy-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const id = e.target.dataset.id;
+      addToCart(id);
+    });
+  });
+
+  // Gắn sự kiện mở popup chi tiết nếu có
+  document.querySelectorAll('.product-thumb img').forEach(img => {
+    img.addEventListener('click', () => {
+      const pid = img.closest('.product-item').dataset.id;
+      openProductDetail(pid);
+    });
+  });
+}
+
+renderAll();
+
+
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+function renderAll(){
+  // mỗi mục render vào phần tương ứng
+  for(const key in PRODUCTS){
+    const container = document.getElementById('list-'+key.split('-').slice(-1)[0]) || document.getElementById('list-'+key);
+    // map keys to actual ids used above
+  }
+  // manual mapping because keys and ids differ slightly
+  document.getElementById('list-tep-sulawesi').innerHTML = PRODUCTS['tep-sulawesi'].map(createProductHTML).join('');
+  document.getElementById('list-tep-mau').innerHTML = PRODUCTS['tep-mau'].map(createProductHTML).join('');
+  document.getElementById('list-oc-sula-rabbit').innerHTML = PRODUCTS['oc-sula-rabbit'].map(createProductHTML).join('');
+  document.getElementById('list-phu-kien').innerHTML = PRODUCTS['phu-kien'].map(createProductHTML).join('');
+  document.getElementById('list-nen-tep').innerHTML = PRODUCTS['nen-tep'].map(createProductHTML).join('');
+  document.getElementById('list-be-setup').innerHTML = PRODUCTS['be-setup'].map(createProductHTML).join('');
+}
+renderAll();
+
+/* ========== CART logic ========== */
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// play sound when add
+const addSound = document.getElementById('add-sound');
+function playAddSound(){
+  if(addSound){
+    try{ addSound.currentTime = 0; addSound.play(); }catch(e){}
+  }
+}
+
+function findProductById(id){
+  for(const sec in PRODUCTS){
+    const p = PRODUCTS[sec].find(x=>x.id===id);
+    if(p) return p;
+  }
+  return null;
+}
+
+/* Add to cart when click buy */
+document.addEventListener('click', function(e){
+  if(e.target && e.target.matches('.buy-btn')){
+    const btn = e.target;
+    const id = btn.getAttribute('data-id');
+    const row = btn.closest('.product-item');
+    const qtyInput = row.querySelector('.qty');
+    const qty = Math.max(1, parseInt(qtyInput.value||1,10));
+    const prod = findProductById(id);
+    if(!prod) return alert('Sản phẩm không tìm thấy');
+    const found = cart.find(it=>it.id===id);
+    if(found) found.qty += qty; else cart.push({id:prod.id,name:prod.name,price:prod.price,qty:qty});
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+    showNotice(`Đã thêm ${qty} x ${prod.name}`);
+    playAddSound();
+  }
+});
+
+/* show notice */
+function showNotice(txt){
+  const n = document.getElementById('cart-notice');
+  n.textContent = txt;
+  n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),1900);
+}
+
+/* render cart popup */
+function renderCart(){
+  const listEl = document.getElementById('cart-items');
+  const totalEl = document.getElementById('cart-total');
+  listEl.innerHTML = '';
+  let total=0;
+  cart.forEach((it, idx)=>{
+    total += it.price * it.qty;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `<div style="max-width:70%"><strong>${escapeHtml(it.name)}</strong><div style="color:#666;font-size:13px">SL: ${it.qty} × ${it.price.toLocaleString()}₫</div></div>
+      <div style="text-align:right"><button style="background:transparent;border:none;color:#e52e71;cursor:pointer;font-weight:800" data-remove="${idx}">Xóa</button></div>`;
+    listEl.appendChild(div);
+  });
+  totalEl.textContent = 'Tổng: ' + total.toLocaleString() + '₫';
+}
+renderCart();
+
+/* remove item from cart (delegation) */
+document.getElementById('cart-popup').addEventListener('click', function(e){
+  if(e.target && e.target.hasAttribute('data-remove')){
+    const i = parseInt(e.target.getAttribute('data-remove'),10);
+    if(!isNaN(i)){ cart.splice(i,1); localStorage.setItem('cart',JSON.stringify(cart)); renderCart(); }
+  }
+});
+
+/* toggle cart */
+const cartToggle = document.getElementById('cartToggle');
+const cartPopup = document.getElementById('cart-popup');
+const cartClose = document.getElementById('cartClose');
+cartToggle.addEventListener('click', ()=>cartPopup.classList.toggle('active'));
+cartClose.addEventListener('click', ()=>cartPopup.classList.remove('active'));
+
+/* Checkout open (from both floating cart and top button) */
+const overlay = document.getElementById('overlay');
+const popup = document.getElementById('checkout-popup');
+const popupClose = document.getElementById('popup-close');
+const checkoutBtn = document.getElementById('checkout-btn');
+const goCheckout = document.getElementById('goCheckout');
+
+function openCheckout(){
+  // render order summary
+  const sum = document.getElementById('order-summary');
+  const tot = document.getElementById('order-total');
+  if(cart.length===0){ alert('Giỏ hàng đang rỗng'); return; }
+  sum.innerHTML = cart.map(it=>`<div style="margin-bottom:6px">${escapeHtml(it.name)} × ${it.qty} — ${(it.price*it.qty).toLocaleString()}₫</div>`).join('');
+  const total = cart.reduce((s,i)=>s + i.price*i.qty,0);
+  tot.textContent = 'Tổng: ' + total.toLocaleString() + '₫';
+  overlay.style.display = 'block';
+  popup.style.display = 'block';
+}
+
+checkoutBtn.addEventListener('click', openCheckout);
+goCheckout.addEventListener('click', openCheckout);
+popupClose.addEventListener('click', closeCheckout);
+overlay.addEventListener('click', closeCheckout);
+
+function closeCheckout(){
+  overlay.style.display = 'none';
+  popup.style.display = 'none';
+}
+
+/* Checkout form submit -> gửi về Google Script */
+const checkoutForm = document.getElementById('checkout-form');
+checkoutForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  if(cart.length===0){ alert('Giỏ hàng rỗng'); return; }
+  // build payload
+  const fd = new FormData(checkoutForm);
+  const payload = {
+    name: fd.get('name'),
+    phone: fd.get('phone'),
+    address: fd.get('address'),
+    note: fd.get('note'),
+    cart: cart,
+    total: cart.reduce((s,i)=>s + i.price*i.qty,0),
+    createdAt: new Date().toISOString()
+  };
+
+  // your Google Apps Script URL (kept as you requested)
+  const GSCRIPT = "https://script.google.com/macros/s/AKfycbyjYsK_oNtbwqnQWRWsSwy3cwR8X5dfFSMajY2E0vONJJfmpGI_qje2P1O3NAOoTOmVSw/exec";
+
+  fetch(GSCRIPT, {
+    method:'POST',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r=>r.text())
+  .then(()=> {
+    alert('✅ Đơn hàng đã gửi thành công!');
+    cart = [];
+    localStorage.removeItem('cart');
+    renderCart();
+    closeCheckout();
+    checkoutForm.reset();
+  })
+  .catch(err=>{
+    alert('❌ Gửi thất bại: '+ err);
+  });
+});
+
+/* Small search: filter visible items by name */
+document.getElementById('searchBtn').addEventListener('click', doSearch);
+document.getElementById('searchInput').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); doSearch(); }});
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if(!q){ // show all
+    document.querySelectorAll('.product-item').forEach(el=>el.style.display='flex');
+    return;
+  }
+  document.querySelectorAll('.product-item').forEach(el=>{
+    const name = el.querySelector('.name').textContent.toLowerCase();
+    const meta = el.querySelector('.product-meta')?.textContent.toLowerCase() || '';
+    if(name.includes(q) || meta.includes(q)) el.style.display='flex'; else el.style.display='none';
+  });
+}
+
+/* simple anchor smooth scroll */
+document.querySelectorAll('.main-nav a').forEach(a=>{
+  a.addEventListener('click', function(e){
+    // default anchor works; smooth behavior controlled by CSS scroll-behavior
+  });
+});
+
+/* add small visual animation when adding item (already using notice + sound) */
+
+/* ensure cart rendered on load */
+renderCart();
+
+/* Optional: handle remove by swipe / keyboard? not necessary now */
+
+/* End of script */
+// === HIỂN THỊ CHI TIẾT SẢN PHẨM (POPUP) ===
+function showProductDetail(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  const content = `
+    <h2>${p.name}</h2>
+    <img src="${p.img}" alt="${p.name}">
+    <div>${p.detail || "Chưa có mô tả cho sản phẩm này."}</div>
+  `;
+  document.getElementById("productDetailContent").innerHTML = content;
+  document.getElementById("productDetailOverlay").style.display = "flex";
+}
+
+function closeProductDetail() {
+  document.getElementById("productDetailOverlay").style.display = "none";
+}
+ renderAll();
+</script>
+<!-- Footer -->
+  <footer>
+    <strong>SULA HOME – Tép cảnh Hà Đông</strong> • Hotline: 0375 823 367 • Đ/c: Số 2 Võ Thị Sáu, Hà Đông
+  </footer>
+  <!-- POPUP CHI TIẾT SẢN PHẨM -->
+<div class="product-detail-overlay" id="productDetailOverlay">
+  <div class="product-detail" id="productDetailBox">
+    <span class="product-detail-close" onclick="closeProductDetail()">×</span>
+    <div id="productDetailContent"></div>
+  </div>
+</div>
+</body>
+</html>
